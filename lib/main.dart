@@ -6,6 +6,8 @@ import 'package:newapp/theme/deaf_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
+import 'screens/home/home_screen.dart';
+
 void main() {
   ApiLinks.init(environment: EnvironmentFlavours.development);
   runApp(const MyApp());
@@ -29,10 +31,10 @@ class MyApp extends StatelessWidget {
               data: DeafTheme.lightTheme,
               child: child!,
             )),
-            // home: const HomeScreen(),
-        initialRoute: AppRoutesNames.initial,
-        navigatorKey: AppNavigation.navigatorKey,
-        onGenerateRoute: RouteGenerator.generateRoute,
+            home: const HomeScreen(),
+        // initialRoute: AppRoutesNames.initial,
+        // navigatorKey: AppNavigation.navigatorKey,
+        // onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

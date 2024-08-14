@@ -43,6 +43,7 @@ dependencies:
   toastification: ^2.1.0
   html: ^0.15.4
   carousel_slider: ^5.0.0
+  share_plus: ^10.0.1
 
 dev_dependencies:
   flutter_test:

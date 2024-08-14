@@ -157,6 +157,7 @@ class _DetailListingScreenState extends State<DetailListingScreen> {
             )
           ],
         )),
+
       ),
     );
   }
