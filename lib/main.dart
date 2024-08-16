@@ -1,6 +1,3 @@
-import 'package:newapp/routing/app_navigator.dart';
-import 'package:newapp/routing/app_route_generator.dart';
-import 'package:newapp/routing/app_route_names.dart';
 import 'package:newapp/services/api_links.dart';
 import 'package:newapp/theme/deaf_theme.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,8 @@
-import 'package:newapp/const/data_const.dart';
 import 'package:newapp/generic_widgets/image/deaf_asset_image.dart';
 import 'package:newapp/routing/app_navigator.dart';
 import 'package:newapp/routing/app_route_names.dart';
 import 'package:newapp/services/app_images.dart';
 import 'package:flutter/material.dart';
-import 'package:newapp/utils/deaf_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

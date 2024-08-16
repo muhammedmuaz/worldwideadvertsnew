@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:newapp/const/data_const.dart';
 import 'package:newapp/models/affiliates_model.dart';
+import 'package:newapp/models/car_rental_model.dart';
 import 'package:newapp/models/user_model.dart';
 import 'package:newapp/routing/app_navigator.dart';
 import 'package:newapp/routing/app_route_names.dart';
@@ -87,7 +89,6 @@ class ApiCallbacks {
       for (var i = 0; i < response['data']['items'].length; i++) {
         affiliatesList.add(Affiliates.fromJson(response['data']['items'][i]));
       }
-      print(affiliatesList.length);
       return affiliatesList;
     }
     return [];
@@ -114,7 +115,7 @@ class ApiCallbacks {
       throw Exception(e.toString());
     }
   }
- 
+
   static Future<UserModel> getUserDetails(BuildContext context) async {
 // auth/login
     try {
@@ -138,8 +139,27 @@ class ApiCallbacks {
     }
   }
 
+  static Future<List<CarRentalService>> fetchServices(String type,
+      {double radius = 1000}) async {
+    await Geolocator.requestPermission();
+    final position = await Geolocator.getCurrentPosition();
+    final response = await ApiService.apiGetRequest(
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${position.latitude},${position.longitude}&radius=$radius&types=$type&key=AIzaSyC8N54f56EleJZDVenZFLGSmCcOLs3UHUA",
+    );
+    List<dynamic> results = json.decode(response.body)['results'];
+    return results.map((result) {
+      final id = result['place_id'] ?? 'hello';
+      final name = result['name'] ?? 'hello';
+      final vicinity = result['vicinity'] ?? 'hello';
+      final rating = result['rating']?.toDouble() ?? 0.0;
+      final photoReference = result['photos']?[0]['photo_reference'];
+      return CarRentalService(id, name, vicinity, rating, photoReference);
+    }).toList();
 
-   static Future<void> forgotPassword(BuildContext context) async {
+    // mapPlacesFromJson(response);
+  }
+
+  static Future<void> forgotPassword(BuildContext context) async {
     final reqBody = await ApiService.apiPostRequest(
         "https://api.worldwideadverts.info/api/v1/auth/forgot-password",
         jsonEncode({}));
@@ -147,22 +167,20 @@ class ApiCallbacks {
       final response = jsonDecode(reqBody);
       if (response['status'].toLowerCase() == "error") {
         toastification.show(
-        context: context, // optional if you use ToastificationWrapper
-        title: const Text('Email not exists'),
-        autoCloseDuration: const Duration(seconds: 3),
-      );
-      }
-      else {
+          context: context, // optional if you use ToastificationWrapper
+          title: const Text('Email not exists'),
+          autoCloseDuration: const Duration(seconds: 3),
+        );
+      } else {
         toastification.show(
-        context: context,
-        title: Text(response['message']),
-        autoCloseDuration: const Duration(seconds: 3),
-      );
+          context: context,
+          title: Text(response['message']),
+          autoCloseDuration: const Duration(seconds: 3),
+        );
       }
     } catch (e) {
       print(e);
       throw Exception(e.toString());
     }
   }
- 
 }

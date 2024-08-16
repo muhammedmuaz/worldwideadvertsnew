@@ -8,7 +8,6 @@ import 'package:newapp/screens/home/home_screen.dart';
 import 'package:newapp/screens/menu/menu_screen.dart';
 import 'package:newapp/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
-import '../screens/home/listing_detail_page.dart';
 import 'app_route_names.dart';
 
 class RouteGenerator {

@@ -25,20 +25,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isloading = false;
   List<Affiliates> affiliates = [];
   List<lsModel.Listing> listings = [];
   Future<void> getAffiliates() async {
-    print("hitting");
     affiliates = await ApiCallbacks.getAffiliates();
     setState(() {});
   }
 
   Future<void> getListings() async {
-    print("hitting");
     listings = await ApiCallbacks.getListings();
     setState(() {});
   }
-
   @override
   void initState() {
     getListings();
@@ -194,6 +192,170 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+            ),
+            const AddHeight(0.02),
+            Text(
+              "Nearby Services",
+              style:
+                  GoogleFonts.nunito(fontWeight: FontWeight.w700, fontSize: 18),
+            ),
+            const AddHeight(0.02),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: height * 0.12,
+                              width: width * 0.39,
+                              child: const DeafHaulingNetworkImage(
+                                  errorAndPlaceHolderFit: BoxFit.cover,
+                                  fit: BoxFit.cover,
+                                  imagePath:
+                                      "https://static.vecteezy.com/system/resources/previews/023/803/036/non_2x/atm-concept-banking-terminal-tiny-people-waiting-in-line-near-atm-machine-holding-credit-card-and-money-online-payment-modern-flat-cartoon-style-illustration-on-white-background-vector.jpg")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Text(
+                              "Bakery",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            ),
+                          ),
+                          const AddHeight(0.02),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: height * 0.12,
+                              width: width * 0.39,
+                              child: const DeafHaulingNetworkImage(
+                                  errorAndPlaceHolderFit: BoxFit.cover,
+                                  fit: BoxFit.cover,
+                                  imagePath:
+                                      "https://c8.alamy.com/comp/WJPHJD/bakery-shop-bake-with-love-cartoon-vector-illustration-WJPHJD.jpg")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Text(
+                              "Atm Machines",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            ),
+                          ),
+                          const AddHeight(0.02),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: height * 0.12,
+                              width: width * 0.39,
+                              child: const DeafHaulingNetworkImage(
+                                  errorAndPlaceHolderFit: BoxFit.cover,
+                                  fit: BoxFit.cover,
+                                  imagePath:
+                                      "https://media.istockphoto.com/id/1313487665/vector/cartoon-hairdresser-washing-client-hair-flat-vector-illustration.jpg?s=612x612&w=0&k=20&c=q7J3LF7wA_YdkAKz54Bpph6D9S6rfzwQ6NoRiNXFmjY=")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Text(
+                              "Beauty Salon",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            ),
+                          ),
+                          const AddHeight(0.02),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: height * 0.12,
+                              width: width * 0.39,
+                              child: const DeafHaulingNetworkImage(
+                                  errorAndPlaceHolderFit: BoxFit.cover,
+                                  fit: BoxFit.cover,
+                                  imagePath:
+                                      "https://static.vecteezy.com/system/resources/previews/012/251/706/original/bike-shop-with-shoppers-people-choosing-cycles-accessories-or-gear-equipment-for-riding-in-template-hand-drawn-cartoon-flat-illustration-vector.jpg")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Text(
+                              "Bicycle Store",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            ),
+                          ),
+                          const AddHeight(0.02),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: height * 0.12,
+                              width: width * 0.39,
+                              child: const DeafHaulingNetworkImage(
+                                  errorAndPlaceHolderFit: BoxFit.cover,
+                                  fit: BoxFit.cover,
+                                  imagePath:
+                                      "https://i.pinimg.com/originals/79/a2/6c/79a26c942e0b561b1c59621be1bfc22f.jpg")),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Text(
+                              "Book Store",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            ),
+                          ),
+                          const AddHeight(0.02),
+                        ],
+                      ),
+                    ),
+                  ]),
             ),
             const AddHeight(0.02),
             Text(

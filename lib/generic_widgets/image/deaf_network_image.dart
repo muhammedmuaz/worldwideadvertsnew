@@ -3,7 +3,6 @@ import 'package:newapp/generic_widgets/image/deaf_asset_image.dart';
 import 'package:newapp/services/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../services/api_links.dart';
 
 class DeafHaulingNetworkImage extends StatelessWidget {
   final String imagePath;
