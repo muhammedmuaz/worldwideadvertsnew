@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:newapp/controllers/api.dart';
-import 'package:newapp/screens/home/widgets/colors.dart';
+import 'package:get/get.dart';
+import 'package:newapp/const/design_const.dart';
+import 'package:newapp/screens/home/detailPage.dart';
 import 'package:newapp/screens/home/widgets/rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../models/car_rental_model.dart';
+import '../../controllers/service_controller.dart';
 
 class ServicePage extends StatefulWidget {
   String title, service;
@@ -16,92 +17,81 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  TextEditingController _searchController = TextEditingController();
   double currentValue = 1000.0;
-  bool isloading = true;
-  List<CarRentalService> carRentalServices = [];
-  Future<void> getNearbyServices() async {
-    carRentalServices = await ApiCallbacks.fetchServices(widget.service);
-    isloading = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    getNearbyServices();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xff264653),
-          centerTitle: true,
-          title: Text(
-            widget.title,
-            style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-          ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff264653),
+        centerTitle: true,
+        title: Text(
+          widget.title,
+          style: const TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
         ),
-        body: isloading == false
+      ),
+      body: GetBuilder<ServiceController>(builder: (controller) {
+        return controller.isloading == false
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Slider(
-                  //     min: 1000,
-                  //     max: 5000,
-                  //     divisions: 5,
-                  //     label: currentValue.toString(),
-                  //     activeColor: const Color(0xff264653),
-                  //     inactiveColor: Colors.green.shade200,
-                  //     value: currentValue,
-                  //     onChanged: (newval) {
-                  //       currentValue = newval;
-                  //       controller.update();
-                  //       Future.delayed(const Duration(seconds: 1), () {
-                  //         controller.fetchServices(widget.service,
-                  //             radius: currentValue);
-                  //       });
-                  //     }),
-                  // Padding(
-                  //   padding: EdgeInsets.all(12.0),
-                  //   child: TextField(
-                  //     controller: _searchController,
-                  //     decoration: const InputDecoration(
-                  //       labelText: 'Search',
-                  //       hintText: 'Search',
-                  //       prefixIcon: Icon(Icons.search),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  //       ),
-                  //     ),
-                  //     onChanged: (value) {
-                  //       controller.filterPostGoogleService(value);
-                  //     },
-                  //   ),
-                  // ),
+                  Slider(
+                      min: 1000,
+                      max: 5000,
+                      divisions: 5,
+                      label: currentValue.toString(),
+                      activeColor: const Color(0xff264653),
+                      inactiveColor: Colors.green.shade200,
+                      value: currentValue,
+                      onChanged: (newval) {
+                        currentValue = newval;
+                        controller.update();
+                        Future.delayed(const Duration(seconds: 1), () {
+                          controller.fetchServices(widget.service,
+                              radius: currentValue);
+                        });
+                      }),
+                  Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        labelText: 'Search',
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        controller.filterPostGoogleService(value);
+                      },
+                    ),
+                  ),
                   Expanded(
-                    child: carRentalServices.isEmpty
+                    child: controller.filteredcarRentalServices.isEmpty
                         ? const Center(
                             child: Text('No Services available in your radius'),
                           )
                         : ListView.builder(
-                            itemCount: carRentalServices.length,
+                            itemCount: controller.carRentalServices.length,
                             itemBuilder: (context, index) {
                               final service =
-                                  carRentalServices[index];
+                                  controller.carRentalServices[index];
                               return Padding(
                                 padding: const EdgeInsets.only(
                                     bottom: 30.0, left: 20, right: 10),
                                 child: GestureDetector(
                                   onTap: () async {
-                                    // await Get.to(DetailPage(
-                                    //   title: service.name.toString(),
-                                    //   detail: service.vicinity.toString(),
-                                    //   photoReference:
-                                    //       service.photoReference.toString(),
-                                    //   rating: service.rating ?? 0.0,
-                                    //   id: service.id.toString(),
-                                    // ));
+                                    await Get.to(DetailPage(
+                                      title: service.name.toString(),
+                                      detail: service.vicinity.toString(),
+                                      photoReference:
+                                          service.photoReference.toString(),
+                                      rating: service.rating ?? 0.0,
+                                      id: service.id.toString(),
+                                    ));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -128,8 +118,7 @@ class _ServicePageState extends State<ServicePage> {
                                                     width: double.infinity,
                                                     decoration: BoxDecoration(
                                                         color:
-                                                            DynamicColor
-                                                                .accentColor,
+                                                            DesignConstants.kPrimaryColor,
                                                         borderRadius:
                                                             const BorderRadius
                                                                 .only(
@@ -146,10 +135,9 @@ class _ServicePageState extends State<ServicePage> {
                                                   ),
                                                   placeholder: (context, url) =>
                                                       Shimmer.fromColors(
-                                                    baseColor: DynamicColor.gray
+                                                    baseColor: Colors.grey
                                                         .withOpacity(0.4),
-                                                    highlightColor: DynamicColor
-                                                        .whiteColor
+                                                    highlightColor: Colors.grey
                                                         .withOpacity(0.4),
                                                     child: Container(
                                                       height: double.infinity,
@@ -238,7 +226,9 @@ class _ServicePageState extends State<ServicePage> {
               )
             : const Center(
                 child: CircularProgressIndicator(),
-              ));
+              );
+      }),
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:newapp/controllers/api.dart';
 import 'package:newapp/generic_widgets/image/deaf_asset_image.dart';
 import 'package:newapp/generic_widgets/image/deaf_network_image.dart';
@@ -12,10 +13,12 @@ import 'package:newapp/utils/helper_widgets/add_height.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/design_const.dart';
+import '../../controllers/service_controller.dart';
 import '../../models/listing_model.dart' as lsModel;
 import '../../utils/screen_helper.dart';
 import 'detail_listing_screen.dart';
 import 'listing_detail_page.dart';
+import 'servicepage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,12 +40,16 @@ class _HomeScreenState extends State<HomeScreen> {
     listings = await ApiCallbacks.getListings();
     setState(() {});
   }
+
   @override
   void initState() {
     getListings();
     getAffiliates();
     super.initState();
   }
+
+  ServiceController mapController = Get.put(ServiceController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -206,32 +213,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height: height * 0.12,
-                              width: width * 0.39,
-                              child: const DeafHaulingNetworkImage(
-                                  errorAndPlaceHolderFit: BoxFit.cover,
-                                  fit: BoxFit.cover,
-                                  imagePath:
-                                      "https://static.vecteezy.com/system/resources/previews/023/803/036/non_2x/atm-concept-banking-terminal-tiny-people-waiting-in-line-near-atm-machine-holding-credit-card-and-money-online-payment-modern-flat-cartoon-style-illustration-on-white-background-vector.jpg")),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, top: 4),
-                            child: Text(
-                              "Bakery",
-                              style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w700, fontSize: 18),
+                    GestureDetector(
+                      onTap: () {
+                        mapController.carRentalServices.clear();
+        mapController.fetchServices("bakery");
+                        Get.to(ServicePage(
+                          title: "Bakery",
+                          service: "bakery",
+                        ));
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                height: height * 0.12,
+                                width: width * 0.39,
+                                child: const DeafHaulingNetworkImage(
+                                    errorAndPlaceHolderFit: BoxFit.cover,
+                                    fit: BoxFit.cover,
+                                    imagePath:
+                                        "https://static.vecteezy.com/system/resources/previews/023/803/036/non_2x/atm-concept-banking-terminal-tiny-people-waiting-in-line-near-atm-machine-holding-credit-card-and-money-online-payment-modern-flat-cartoon-style-illustration-on-white-background-vector.jpg")),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8, top: 4),
+                              child: Text(
+                                "Bakery",
+                                style: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w700, fontSize: 18),
+                              ),
                             ),
-                          ),
-                          const AddHeight(0.02),
-                        ],
+                            const AddHeight(0.02),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
