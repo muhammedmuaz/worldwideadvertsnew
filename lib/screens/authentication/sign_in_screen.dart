@@ -1,7 +1,10 @@
+import 'package:get/get.dart';
 import 'package:newapp/const/design_const.dart';
 import 'package:newapp/controllers/api.dart';
+import 'package:newapp/controllers/auth_controller.dart';
 import 'package:newapp/generic_widgets/image/deaf_asset_image.dart';
 import 'package:newapp/generic_widgets/textfield/deaf_text_form_field.dart';
+import 'package:newapp/getxControllers/auth_controller_getx.dart';
 import 'package:newapp/routing/app_navigator.dart';
 import 'package:newapp/routing/app_route_names.dart';
 import 'package:newapp/services/app_images.dart';
@@ -19,8 +22,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final _authController = Get.put(AuthControllerGetx());
   var _formKey = GlobalKey<FormState>();
-  bool isLoading = false;
   var isObsecureText = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -130,40 +133,41 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 const AddHeight(0.025),
-                !isLoading
-                    ? Hero(
-                        tag: "auth",
-                        child: GestureDetector(
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              isLoading = true;
-                              setState(() {});
-                              await ApiCallbacks.login(emailController.text,
-                                  passController.text, context);
-                              isLoading = false;
-                              setState(() {});
-                            }
-                          },
-                          child: Container(
-                            height: 60,
-                            width: double.maxFinite,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: DesignConstants.kPrimaryColor,
-                                borderRadius: BorderRadius.circular(14.0)),
-                            child: Text(
-                              "Sign In?",
-                              style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: DesignConstants.kWhiteColor),
-                            ),
+                GetBuilder<AuthControllerGetx>(
+                  builder: (value) {
+                    if (value.isLoading) {
+                      return const CircularProgressIndicator(
+                        color: DesignConstants.kPrimaryColor,
+                      );
+                    }
+                    return Hero(
+                      tag: "auth",
+                      child: GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            value.login(emailController.text,
+                                passController.text, context);
+                          }
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.maxFinite,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: DesignConstants.kPrimaryColor,
+                              borderRadius: BorderRadius.circular(14.0)),
+                          child: Text(
+                            "Sign In?",
+                            style: GoogleFonts.nunito(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: DesignConstants.kWhiteColor),
                           ),
                         ),
-                      )
-                    : const CircularProgressIndicator(
-                        color: DesignConstants.kPrimaryColor,
                       ),
+                    );
+                  },
+                ),
                 const AddHeight(0.045),
                 RichText(
                   text: TextSpan(children: [
@@ -188,7 +192,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ]),
                 ),
-
               ],
             ),
           ),

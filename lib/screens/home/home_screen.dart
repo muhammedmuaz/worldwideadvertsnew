@@ -13,7 +13,7 @@ import 'package:newapp/utils/helper_widgets/add_height.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../const/design_const.dart';
-import '../../controllers/service_controller.dart';
+import '../../getxControllers/service_controller.dart';
 import '../../models/listing_model.dart' as lsModel;
 import '../../utils/screen_helper.dart';
 import 'detail_listing_screen.dart';
@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     listings = await ApiCallbacks.getListings();
     setState(() {});
   }
+
 
   @override
   void initState() {

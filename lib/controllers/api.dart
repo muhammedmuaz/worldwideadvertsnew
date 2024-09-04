@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:newapp/const/data_const.dart';
@@ -9,9 +8,9 @@ import 'package:newapp/models/car_rental_model.dart';
 import 'package:newapp/models/user_model.dart';
 import 'package:newapp/routing/app_navigator.dart';
 import 'package:newapp/routing/app_route_names.dart';
+import 'package:newapp/services/api_links.dart';
 import 'package:newapp/services/api_services.dart';
 import 'package:toastification/toastification.dart';
-
 import '../models/listing_model.dart';
 import '../utils/deaf_storage.dart';
 
@@ -77,13 +76,9 @@ class ApiCallbacks {
 
   static Future<List<Affiliates>> getAffiliates() async {
     final reqBody = await ApiService.apiGetRequest(
-      "https://api.worldwideadverts.info/api/v1/affiliate?position=top&sort_type=asc&limit=10",
+      "${ApiLinks.getAffiliates}?position=top&sort_type=asc&limit=10",
     );
-
     final response = jsonDecode(reqBody);
-    print("sdnsdjdssdjnsdsd");
-    // print(response);
-
     List<Affiliates> affiliatesList = [];
     if (response['status'].toLowerCase() == "success") {
       for (var i = 0; i < response['data']['items'].length; i++) {
@@ -96,7 +91,7 @@ class ApiCallbacks {
 
   static Future<List<Listing>> getListings() async {
     final reqBody = await ApiService.apiPostRequest(
-        "https://api.worldwideadverts.info/api/v1/listing/promoted",
+        ApiLinks.promotedListings,
         jsonEncode({}));
     try {
       final response = jsonDecode(reqBody);
@@ -106,7 +101,6 @@ class ApiCallbacks {
         for (var i = 0; i < response['data']['items'].length; i++) {
           listings.add(Listing.fromJson(response['data']['items'][i]));
         }
-        print(listings.length);
         return listings;
       }
       return [];
@@ -183,4 +177,6 @@ class ApiCallbacks {
       throw Exception(e.toString());
     }
   }
+
+
 }

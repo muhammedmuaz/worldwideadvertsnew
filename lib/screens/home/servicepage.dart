@@ -5,7 +5,7 @@ import 'package:newapp/const/design_const.dart';
 import 'package:newapp/screens/home/detailPage.dart';
 import 'package:newapp/screens/home/widgets/rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../controllers/service_controller.dart';
+import '../../getxControllers/service_controller.dart';
 
 class ServicePage extends StatefulWidget {
   String title, service;
@@ -53,7 +53,7 @@ class _ServicePageState extends State<ServicePage> {
                         });
                       }),
                   Padding(
-                    padding: EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: TextField(
                       controller: _searchController,
                       decoration: const InputDecoration(
@@ -116,11 +116,11 @@ class _ServicePageState extends State<ServicePage> {
                                                           Container(
                                                     height: double.infinity,
                                                     width: double.infinity,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         color:
                                                             DesignConstants.kPrimaryColor,
                                                         borderRadius:
-                                                            const BorderRadius
+                                                            BorderRadius
                                                                 .only(
                                                                 topLeft: Radius
                                                                     .circular(
@@ -128,7 +128,7 @@ class _ServicePageState extends State<ServicePage> {
                                                                 topRight: Radius
                                                                     .circular(
                                                                         12)),
-                                                        image: const DecorationImage(
+                                                        image: DecorationImage(
                                                             image: AssetImage(
                                                                 "assets/NoImgPlaceholder.png"),
                                                             fit: BoxFit.fill)),
@@ -233,8 +233,8 @@ class _ServicePageState extends State<ServicePage> {
 }
 
 String buildPhotoUrl(String photoReference) {
-  final maxWidth = 400;
-  final maxHeight = 400;
+  const maxWidth = 400;
+  const maxHeight = 400;
 
   return 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=$maxWidth&maxheight=$maxHeight&photoreference=$photoReference&key=AIzaSyC8N54f56EleJZDVenZFLGSmCcOLs3UHUA';
 }

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:newapp/screens/home/servicepage.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../controllers/service_controller.dart';
+import '../../getxControllers/service_controller.dart';
 
 class DetailPage extends StatefulWidget {
   final String id, title, detail, photoReference;

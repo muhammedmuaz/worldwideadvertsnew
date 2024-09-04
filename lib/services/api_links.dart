@@ -19,8 +19,8 @@ class ApiLinks {
   static late final String baseURL;
   static late final String baseURLImage;
 
-  static const String _developmentURL = "";
-  static const String _productionURL = '';
+  static const String _developmentURL = "https://api.worldwideadverts.info/api/v1";
+  static const String _productionURL = "https://api.worldwideadverts.info/api/v1";
   static const String _localURL = '';
   //test base Image URL
   static const String _developmentImageURL = "";
@@ -31,10 +31,19 @@ class ApiLinks {
   static final String imagesUrl = '$baseURL/Images/';
 
   // Socket Url
-  static late final String socketUrl = '$baseURL/socket';
+  static final String socketUrl = '$baseURL/socket';
 
   // live base URL
   //static const String baseURL = "";
+
+  static const String getAffiliates = "/affiliate";
+  static const String promotedListings = "/listing/promoted";
+  static const String login = "/auth/login";
+  static const String register = "/auth/register";
+  static const String forgotPassword = "/auth/forgot-password";
+
+
+
   
 }
 
